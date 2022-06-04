@@ -1,0 +1,104 @@
+.TH "CSTACK_POP" "cware" "April 16th, 2022" "" "C-Ware Manual"
+
+.SH NAME
+cstack_pop - pop a value from the top of a stack
+
+.SH SYNOPSIS
+.B #include <stdio.h>
+.br
+.B #include <stdlib.h>
+.br
+.B #include <string.h>
+.br
+.B #include <cware/cstack/cstack.h>
+
+.BI "#define cstack_pop(" "stack" ", " "namespace" ");"
+
+.SH DESCRIPTION
+Pops a value from the top of a stack, and returns it. This macro does not do
+any shrinking on the array when it gets smaller. The array can only expand.
+
+This macro will print an error message to the stderr and exit the program if
+any of the following conditions are met:
+.RS
+.IP \[bu] 0.4i
+Attempting to pop from an empty stack
+.RE
+
+.I stack
+will be the stack to push to
+.br
+.I namespace
+will be the namespace of the stack settings to use
+
+.SH EXAMPLES
+/*
+ * This example showcases how to use the
+.B cstack_init
+function.
+.br
+*/
+
+#include <stdlib.h>
+.br
+#include <cware/cstack/cstack.h>
+
+#define STRING_STACK_TYPE char*
+.br
+#define STRING_STACK_FREE(value) /* Strings are in ROM; cannot free */
+.br
+#define STRING_STACK_HEAP 1      /* Should be allocated using heap memory */
+
+struct StringStack {
+.br
+    char **contents;
+.br
+    int length;
+.br
+    int capacity;
+.br
+};
+
+int main(void) {
+.br
+    char *storage = NULL;
+.br
+    struct StringStack *new_stack = NULL;
+.br
+
+    /* Initialise heap-based stack */
+.br
+    new_stack = cstack_init(new_stack, STRING_STACK);
+.br
+
+    /* Push some values to the top of the stack */
+.br
+    cstack_push(new_stack, "foo", STRING_STACK);
+.br
+    cstack_push(new_stack, "bar", STRING_STACK);
+.br
+    cstack_push(new_stack, "baz", STRING_STACK);
+.br
+
+    /* Pop them off */
+.br
+    storage = cstack_pop(new_stack, STRING_STACK);
+.br
+    printf("Popped value: %s\\n", storage);
+.br
+    storage = cstack_pop(new_stack, STRING_STACK);
+.br
+    printf("Popped value: %s\\n", storage);
+.br
+    storage = cstack_pop(new_stack, STRING_STACK);
+.br
+    printf("Popped value: %s\\n", storage);
+.br
+
+    return EXIT_SUCCESS;
+.br
+}
+
+.SH SEE ALSO
+.BR cware (cware),
+.BR cstack (cware)
