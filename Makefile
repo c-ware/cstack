@@ -5,9 +5,9 @@
 CC=cc
 PREFIX=/usr/local
 # CFLAGS=-ansi -Wall -Wextra -Wshadow -Wdouble-promotion -fpic -Wno-unused-variable -Wno-unused-function -Wno-sign-compare
-TESTS=tests/test_push.out tests/test_pop.out tests/test_peek.out tests/test_length.out tests/test_is_empty.out tests/test_init.out tests/test_free.out 
-DOCS=./doc/cstack_peek.cware ./doc/cstack_push.cware ./doc/cstack_pop.cware ./doc/cstack_length.cware ./doc/cstack_is_empty.cware ./doc/cstack_init_stack.cware ./doc/cstack_init.cware ./doc/cstack_free.cware ./doc/cstack.cware 
-MANNAMES=cstack_peek.cware cstack_push.cware cstack_pop.cware cstack_length.cware cstack_is_empty.cware cstack_init_stack.cware cstack_init.cware cstack_free.cware cstack.cware 
+TESTS=tests/test_free.out tests/test_peek.out tests/test_init.out tests/test_push.out tests/test_pop.out tests/test_is_empty.out tests/test_length.out 
+DOCS=
+MANNAMES=
 DEBUGGER=
 
 .PHONY: all clean check install
