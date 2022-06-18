@@ -1,0 +1,102 @@
+.TH "CSTACK_INIT_STACK" "cware" "April 16th, 2022" "" "C-Ware Manual"
+
+.SH NAME
+cstack_init_stack - initialise a stack on the heap or stack
+
+.SH SYNOPSIS
+.B #include <stdio.h>
+.br
+.B #include <stdlib.h>
+.br
+.B #include <string.h>
+.br
+.B #include <cware/cstack/cstack.h>
+
+.BI "#define cstack_init_stack(" "stack" ", " "buffer" ", " "_capacity" ", " \
+    "namespace" ");"
+
+.SH DESCRIPTION
+Initialises a new stack on the stack. The resulting stack does not need to be
+released from memory (it cannot be), as its lifetime is attached to the scope
+of the caller. This macro uses an array defined on the stack to act as the
+buffer for the contents of the stack, and subsequently cannot be resized as
+more items are added.
+
+This macro will print an error message to the stderr and exit the program if
+any of the following conditions are met:
+.RS
+.IP \[bu] 0.4i
+The
+.I buffer
+argument is
+.B NULL
+in stack mode
+
+.IP \[bu] 0.4i
+The
+.I capacity
+argument is less than or equal to 0
+in stack mode
+
+.RE
+
+.I stack
+will be the variable to load the stack into
+.br
+.I buffer
+will be the stack buffer to use if stack mode is enabled
+.br
+.I _capacity
+will be the maximum capacity of the buffer if stack mode is enabled
+.br
+.I namespace
+will be the namespace of the stack settings to use
+
+.SH EXAMPLES
+/*
+ * This example showcases how to use the
+.B cstack_init
+function.
+.br
+*/
+
+#include <stdlib.h>
+.br
+#include <cware/cstack/cstack.h>
+
+#define STRING_STACK_S_TYPE char*
+.br
+#define STRING_STACK_S_FREE(value) /* Strings are in ROM; cannot free */
+.br
+#define STRING_STACK_S_HEAP 0      /* Should be allocated using heap memory */
+
+struct StringStack {
+.br
+    char **contents;
+.br
+    int length;
+.br
+    int capacity;
+.br
+.br
+};
+
+int main(void) {
+.br
+    char *strings[4] = {0};
+.br
+    struct StringStack new_stack = NULL;
+.br
+
+    /* Initialise stack-based stack */
+.br
+    new_stack = cstack_init_stack(new_stack, strings, 4, STRING_STACK_S);
+.br
+
+    return EXIT_SUCCESS;
+.br
+}
+
+.SH SEE ALSO
+.BR cware (cware),
+.BR cstack (cware)

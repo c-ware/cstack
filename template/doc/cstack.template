@@ -1,0 +1,91 @@
+.TH "CSTACK" "cware" "April 16th, 2022" "" "C-Ware Manual"
+
+.SH NAME
+cstack - an array-based stack implementation
+
+.SH SYNOPSIS
+.B #include <stdio.h>
+.br
+.B #include <stdlib.h>
+.br
+.B #include <string.h>
+.br
+.B #include <cware/cstack/cstack.h>
+
+struct
+.IR StackName
+{
+.br
+.RS 0.4i
+.I\&type
+*contents;   /* The contents of the stack */
+.br
+int length;     /* How much of the array is used */
+.br
+int capacity;   /* How much memory is allocated */
+.RE
+.br
+};
+
+/* Individual stack configuration */
+.TS
+tab(;);
+lb l
+.
+#define STACK_NAME_TYPE;/* Type the stack contains */
+#define STACK_NAME_FREE(value);/* Release a value in the stack from memory */
+#define STACK_NAME_HEAP;/* Whether or not the stack should use heap memory */
+.TE
+
+/* Global stack configuration */
+.TS
+tab(;);
+lb l l
+.
+#define CSTACK_INITIAL_SIZE;5;/* Initial size of a heap stack. Must be \
+positive */
+.TE
+
+/* Stack operations */
+.BI "#define cstack_init(" "stack" ", " "namespace" ");"
+.br
+.BI "#define cstack_init_stack(" "stack" ", " "buffer" ", " "_capacity" ", " \
+    "namespace" ");"
+.br
+.BI "#define cstack_push(" "stack" ", " "value" ", " "namespace" ");"
+.br
+.BI "#define cstack_pop(" "stack" ", " "namespace" ");"
+.br
+.BI "#define cstack_peek(" "stack" ", " "namespace" ");"
+.br
+.BI "#define cstack_length(" "stack" ", " "namespace" ");"
+.br
+.BI "#define cstack_is_empty(" "stack" ", " "namespace" ");"
+.br
+.BI "#define cstack_free(" "stack" ", " "namespace" ");"
+
+.SH DESCRIPTION
+An ANSI C compliant stack implementation using macros. Uses an array to store
+the contents as opposed to using a linked list to save on memory.
+
+What follows is a table of each operation on a stack, and its associated manual
+page.
+.TS
+tab(;);
+lb l
+_ _
+lb l
+.
+Manual;Description
+cstack_init(cware);Initialize a new stack on the heap
+cstack_init_stack(cware);Initialize a new stack on the stack
+cstack_push(cware);Push a value to the top of a stack
+cstack_peek(cware);Retrieve the value at the top of the stack
+cstack_pop(cware);Pop a value off the top of a stack and return it
+cstack_length(cware);Determine the length of a stack
+cstack_is_empty(cware);Determine if a stack is empty
+cstack_free(cware);Release a stack and its contents from memory
+.TE
+
+.SH SEE ALSO
+.BR cware (cware)
